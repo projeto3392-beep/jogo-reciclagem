@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Reciclagem - Turma 702M</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <i class="fas fa-recycle"></i>
+                Jogo de Reciclagem
+            </h1>
+            <div class="header-controls">
+                <div class="turma-info">
+                    <span class="turma-badge">TURMA 702M</span>
+                </div>
+                <button class="music-toggle" id="musicToggle" title="Ligar/Desligar música de fundo">
+                    <i class="fas fa-music"></i>
+                </button>
+                <button class="theme-toggle" id="themeToggle" title="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Aprenda a <span class="highlight">Reciclar</span> de Forma Divertida!
+                </h1>
+                <p class="hero-subtitle">
+                    Ajude a salvar o planeta separando o lixo corretamente
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" id="chooseDifficulty">
+                        <i class="fas fa-cog"></i>
+                        Escolher Dificuldade
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Difficulty Selection -->
+    <section class="difficulty-section" id="difficultySection" style="display: none;">
+        <div class="container">
+            <div class="difficulty-content">
+                <h2 class="difficulty-title">
+                    <i class="fas fa-cog"></i>
+                    Escolha a Dificuldade
+                </h2>
+                <p class="difficulty-subtitle">
+                    Selecione o nível que melhor se adapta ao seu ritmo
+                </p>
+                
+                <div class="difficulty-options">
+                    <div class="difficulty-card" data-difficulty="easy">
+                        <div class="difficulty-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Fácil</h3>
+                        <div class="difficulty-details">
+                            <p><i class="fas fa-clock"></i> 90 segundos</p>
+                            <p><i class="fas fa-tachometer-alt"></i> Velocidade baixa</p>
+                            <p><i class="fas fa-object-group"></i> 6 objetos</p>
+                        </div>
+                        <div class="difficulty-badge easy">Recomendado para iniciantes</div>
+                    </div>
+                    
+                    <div class="difficulty-card" data-difficulty="medium">
+                        <div class="difficulty-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>Médio</h3>
+                        <div class="difficulty-details">
+                            <p><i class="fas fa-clock"></i> 60 segundos</p>
+                            <p><i class="fas fa-tachometer-alt"></i> Velocidade normal</p>
+                            <p><i class="fas fa-object-group"></i> 8 objetos</p>
+                        </div>
+                        <div class="difficulty-badge medium">Equilibrado</div>
+                    </div>
+                    
+                    <div class="difficulty-card" data-difficulty="hard">
+                        <div class="difficulty-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h3>Difícil</h3>
+                        <div class="difficulty-details">
+                            <p><i class="fas fa-clock"></i> 45 segundos</p>
+                            <p><i class="fas fa-tachometer-alt"></i> Velocidade alta</p>
+                            <p><i class="fas fa-object-group"></i> 10 objetos</p>
+                        </div>
+                        <div class="difficulty-badge hard">Para experts</div>
+                    </div>
+                </div>
+                
+                <div class="difficulty-actions">
+                    <button class="btn btn-primary" id="startGame" style="display: none;">
+                        <i class="fas fa-play"></i>
+                        Começar Jogo
+                    </button>
+                    <button class="btn btn-outline" onclick="goBackToHome()">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar ao Início
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Section -->
+    <section class="game-section" id="gameSection" style="display: none;">
+        <div class="container">
+            <!-- Game Header -->
+            <div class="game-header">
+                <div class="score-board">
+                    <div class="score-item">
+                        <i class="fas fa-star"></i>
+                        <span>Pontuação: <span id="score">0</span></span>
+                    </div>
+                    <div class="score-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Tempo: <span id="timer">60</span>s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Area -->
+            <div class="game-area">
+                <!-- Trash Bins -->
+                <div class="trash-bins">
+                    <div class="trash-bin paper-bin" data-type="paper">
+                        <div class="bin-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <h3>Papel</h3>
+                        <div class="bin-color blue"></div>
+                    </div>
+                    
+                    <div class="trash-bin glass-bin" data-type="glass">
+                        <div class="bin-icon">
+                            <i class="fas fa-wine-bottle"></i>
+                        </div>
+                        <h3>Vidro</h3>
+                        <div class="bin-color green"></div>
+                    </div>
+                    
+                    <div class="trash-bin plastic-bin" data-type="plastic">
+                        <div class="bin-icon">
+                            <i class="fas fa-wine-bottle-alt"></i>
+                        </div>
+                        <h3>Plástico</h3>
+                        <div class="bin-color red"></div>
+                    </div>
+                    
+                    <div class="trash-bin metal-bin" data-type="metal">
+                        <div class="bin-icon">
+                            <i class="fas fa-can-food"></i>
+                        </div>
+                        <h3>Metal</h3>
+                        <div class="bin-color yellow"></div>
+                    </div>
+                </div>
+
+                <!-- Objects Area -->
+                <div class="objects-area" id="objectsArea">
+                    <!-- Objects will be generated here -->
+                </div>
+            </div>
+
+            <!-- Game Controls -->
+            <div class="game-controls">
+                <button class="btn btn-secondary" id="pauseGame">
+                    <i class="fas fa-pause"></i>
+                    Pausar
+                </button>
+                <button class="btn btn-outline" id="restartGame">
+                    <i class="fas fa-redo"></i>
+                    Reiniciar
+                </button>
+            </div>
+            
+            <!-- Pause Overlay -->
+            <div class="pause-overlay" id="pauseOverlay" style="display: none;">
+                <div class="pause-content">
+                    <i class="fas fa-pause-circle"></i>
+                    <h2>Jogo Pausado</h2>
+                    <p>Clique em "Continuar" para retomar o jogo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Over Modal -->
+    <div class="modal" id="gameOverModal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Fim de Jogo!</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="game-results">
+                    <div class="result-item">
+                        <i class="fas fa-trophy"></i>
+                        <span>Pontuação Final: <strong id="finalScore">0</strong></span>
+                    </div>
+                    <div class="result-item">
+                        <i class="fas fa-recycle"></i>
+                        <span>Objetos Reciclados: <strong id="objectsRecycled">0</strong></span>
+                    </div>
+                    <div class="result-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Tempo Restante: <strong id="timeLeft">0</strong>s</strong></span>
+                    </div>
+                </div>
+                
+                <div class="performance-message" id="performanceMessage">
+                    <!-- Performance message will be shown here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="playAgain()">
+                    <i class="fas fa-play"></i>
+                    Jogar Novamente
+                </button>
+                <button class="btn btn-outline" onclick="goToHome()">
+                    <i class="fas fa-home"></i>
+                    Voltar ao Início
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions Modal -->
+    <div class="modal" id="instructionsModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Como Jogar</h3>
+                <button class="modal-close" onclick="closeInstructions()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="instructions">
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <p>Arraste os objetos que aparecem na tela</p>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <p>Solte cada objeto na lixeira correta</p>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <p>Ganhe pontos por acertar, perca por errar</p>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <p>Complete o jogo antes do tempo acabar!</p>
+                    </div>
+                </div>
+                
+                <div class="bin-legend">
+                    <h4>Lixeiras:</h4>
+                    <div class="legend-item">
+                        <div class="legend-color blue"></div>
+                        <span>Azul - Papel</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color green"></div>
+                        <span>Verde - Vidro</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color red"></div>
+                        <span>Vermelha - Plástico</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color yellow"></div>
+                        <span>Amarela - Metal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeInstructions()">
+                    <i class="fas fa-check"></i>
+                    Entendi!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Projeto Educacional</h3>
+                    <p>Este jogo foi desenvolvido como trabalho escolar da <strong class="turma-destaque">TURMA 702M</strong></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Professores Orientadores</h3>
+                    <p><strong>Professor Alessandro</strong></p>
+                    <p><strong>Professora Michele</strong></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Finalidade</h3>
+                    <p>Jogo criado exclusivamente para fins educativos sobre sustentabilidade</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 - Trabalho Escolar da Turma 702M | Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Elements -->
+    <audio id="correctSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" preload="auto"></audio>
+    <audio id="wrongSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" preload="auto"></audio>
+    <audio id="backgroundMusic" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" preload="auto" loop></audio>
+    <audio id="ambientMusic" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" preload="auto" loop></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
